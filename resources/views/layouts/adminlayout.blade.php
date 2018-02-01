@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">EdnoBlog</a>
+                <a class="navbar-brand" target="_blank" href="{{url('/')}}">EdnoBlog</a>
             </div>
             <!-- /.navbar-header -->
 

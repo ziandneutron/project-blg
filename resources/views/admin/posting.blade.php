@@ -22,11 +22,11 @@
                              <table class="table table-striped">
                                 <thead>
                                  <tr>
-                                     <th class="col-md-1 ">
-                                       <input type="checkbox" class="form-control" id="checkall">
+                                     <th>
+                                       <input type="checkbox" class="checkbox" id="checkall">
                                      </th>
                                      <th colspan="2">
-                                        <button type="button" class="btn pull-right" onclick="event.preventDefault();document.getElementById('destroy-all').submit();"><li class="fa fa-trash"></li></button>
+                                        <button type="button" class="btn btn-danger pull-right" onclick="event.preventDefault();document.getElementById('destroy-all').submit();"><li class="fa fa-trash"></li></button>
                                      </th>
                                  </tr>   
                                 </thead>
@@ -34,8 +34,8 @@
                                     <form id="destroy-all" action="{{ url('admin/delete') }}" method="POST"> {{ csrf_field() }} 
                                     @foreach($post as $posts)
                                      <tr>
-                                         <td class="col-md-1 ">
-                                            <input type="checkbox" name="checkbox[]" value="{{$posts->id}}" class="form-control checkboxes">
+                                         <td>
+                                            <input type="checkbox" name="checkbox[]" value="{{$posts->id}}" class="checkboxes">
                                          </td>
                                          <td class="col-md-8">
                                              <p>{{$posts->title}}</p>
@@ -60,4 +60,7 @@
             </div>
             <!-- /.container-fluid -->
         </div>
+        <script type="text/javascript">
+            
+        </script>
  @endsection

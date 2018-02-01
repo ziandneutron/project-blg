@@ -12,8 +12,9 @@
 */
 
 Route::resource('/', 'VisitorController');
+Route::resource('/comment', 'CommentController');
 
-Route::get('/post/{id}', 'VisitorController@showPage');
+Route::get('/post/{id}', 'VisitorController@showPage')->name('single');
 
 Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 {
@@ -21,6 +22,8 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 	Route::post('/delete','PostController@destroyall');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/comment','CommentController@index');   
+	Route::get('/comment/{id}','CommentController@show');   
+	Route::post('/comment-deleteall','CommentController@destroyall');   
 });
 
 

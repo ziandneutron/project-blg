@@ -11,59 +11,87 @@
 <div class="clearfix"></div>
 
 <div class="col-md-8 col-sm-8 col-xs-8" style="font-size: larger;">
+  <div class="panel">
+    <div class="panel-body">
+      <!-- Title -->
+      <h1 class="page-header">{{$data->title}}</h1>
+      <!-- Date/Time -->
+      <p>Posted on {{date_format(date_create($data->created_at),'d M Y - H:i:s')}} by <a href="#">Admin</a></p>
 
-  <!-- Title -->
-  <h1 class="mt-4">{{$data->title}}</h1>
+      <hr>
 
-  <!-- Author -->
-  <p class="lead">
-    by
-    <a href="#">Admin</a>
-  </p>
+      <!-- Preview Image -->
+      @if ($data->image)
+      <img class="img-fluid rounded thumbnail" width="100%" src="{{URL::asset('images/'.$data->image)}}" alt="{{$data->image}}">
+      @endif
+      <hr>
 
-  <hr>
+      <!-- Post Content -->
+      <p>{{$data->desc}}</p>
 
-  <!-- Date/Time -->
-  <p>Posted on {{$data->created_at}}</p>
+      <hr>
+      <hr>
 
-  <hr>
-
-  <!-- Preview Image -->
-  <img class="img-fluid rounded" src="{{URL::asset('images/post'.$data->image)}}" alt="No Gambar">
-
-  <hr>
-
-  <!-- Post Content -->
-  <p class="lead">{{$data->desc}}</p>
-
-  <hr>
-
-  <!-- Comments Form -->
-  <div class="card my-4">
-    <h5 class="card-header">Leave a Comment:</h5>
-    <div class="card-body">
-      <form>
-        <div class="form-group">
-          <textarea class="form-control" rows="3"></textarea>
+      <!-- Comments Form -->
+      <div class="card my-4">
+        <h5 class="card-header">Leave Your Comment :</h5>
+        <div class="card-body">
+          <form method="post" action="{{ url('comment') }}">
+            {{csrf_field()}}
+            <div class="form-group">
+              <input type="text" name="nama" class="form-control" placeholder="Your name">
+              <input type="hidden" name="post_id" value="{{$data->id}}">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" rows="3" name="comment" placeholder="Comment"></textarea>
+            </div>
+            <a href="{{ url('/') }}" class="btn btn-default">Back</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-        <button type="button" class="btn btn-danger" onclick="self.history.back();">Back</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+      </div>
+      @if(Session::has('alert-success'))
+      <div class="alert alert-success">
+        <strong>{{ \Illuminate\Support\Facades\Session::get('alert-success') }}</strong>
+      </div>
+      @endif
+      <!-- Single Comment -->
+      @foreach($comment as $c)
+      <div class="media"> 
+        <div class="media-left"> 
+          <a href="{{ url('post/'.$data->id)}}">
+            <img alt="{{$data->image}}" class="media-object" style="width: 64px; height: 64px;" src="http://placehold.it/50x50"  data-holder-rendered="true"> 
+          </a> 
+        </div> 
+        <div class="media-body">
+           @auth
+          <form action="{{ route('comment.destroy', $c->id) }}" method="post">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+            <button class="btn btn-link btn-danger pull-right" type="submit" onclick="return confirm('Yakin ingin menghapus data?')">Hapus</button>
+          </form>
+          @endauth
+          <h4 class="media-heading">{{$c->nama}} <small>{{date_format(date_create($c->created_at),'d M Y - H:i:s')}}</small></h4>
+          <p>{{$c->comment}}</p> 
+        </div> 
+      </div>
+      @endforeach
+    </div>
+
+  </div>
+</div>
+<div class="col-md-4"> 
+  <div class="panel"> 
+    <div class="panel-heading">
+      <h3 class="panel-title">Recent Posted</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        @foreach($recent as $rs)
+        <li><a href="{{url('post/'.$rs->id)}}">{{$rs->title}}</li>
+        @endforeach
+      </ul>
     </div>
   </div>
-
-  <!-- Single Comment -->
-  <div class="media mb-4">
-    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-    <div class="media-body">
-      <h5 class="mt-0">Commenter Name</h5>
-      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    </div>
-  </div>
-</div>
-
-</div>
-</div>
-
 </div>
 @stop

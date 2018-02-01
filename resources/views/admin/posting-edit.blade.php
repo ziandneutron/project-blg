@@ -16,7 +16,7 @@
                                     Post
                             </div>
                             <div class="panel-body">
-                                <form method="POST" action="{{ url('admin/post',[$post->id]) }}">
+                                <form method="POST" action="{{ url('admin/post',[$post->id]) }}" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="Title">Post Title</label>
                                         <input type="text" name="title" class="form-control" placeholder="Place your title here" value="{{$post->title}}" required>
