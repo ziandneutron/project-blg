@@ -38,6 +38,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title'     => 'required',
+            'content'   => 'required'
+        ]);
+
         $post = new Post;
         $post->title = $request->get('title');
         $post->desc = $request->get('content');
@@ -88,16 +93,20 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $post = Post::find($id);
-       $post->title = $request->get('title');
-       $post->desc = $request->get('content');
-       if($request->hasFile('image')){
+        $request->validate([
+            'title'     => 'required',
+            'content'   => 'required'
+        ]);
+        $post = Post::find($id);
+        $post->title = $request->get('title');
+        $post->desc = $request->get('content');
+        if($request->hasFile('image')){
 
-         $imageName = time().'.'.$request->image->getClientOriginalExtension();
-         $post->image = $imageName;
-         $request->image->move(public_path('/images'), $imageName);
+            $imageName = time().'.'.$request->image->getClientOriginalExtension();
+            $post->image = $imageName;
+            $request->image->move(public_path('/images'), $imageName);
         }
-       $post->save();
+        $post->save();
         return redirect('admin/post');
     }
 

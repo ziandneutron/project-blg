@@ -17,13 +17,23 @@
                             </div>
                             <div class="panel-body">
                                 <form method="POST" action="{{ url('admin/post') }}" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label for="Title">Post Title</label>
-                                        <input type="text" name="title" class="form-control" placeholder="Place your title here" required>
+                                    <div class="form-group @if ($errors->has('title')) has-error @endif">
+                                        <label for="title">Post Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" placeholder="Place your title here">
+                                        @if ($errors->has('title'))
+                                        <div class="alert alert-danger" style="margin-top: 5px">
+                                            {{$errors->first('title')}}
+                                        </div>
+                                        @endif
                                     </div>
-                                    <div class="form-group">
-                                        <label for="Title">Post Content</label>
-                                        <textarea name="content" class="form-control" rows="7" style="resize:none;" placeholder="Place your content here" required></textarea>
+                                    <div class="form-group @if ($errors->has('content')) has-error @endif">
+                                        <label for="content">Post Content</label>
+                                        <textarea id="content" name="content" class="form-control" rows="7" style="resize:none;" placeholder="Place your content here">{{ old('content') }}</textarea>
+                                        @if ($errors->has('content'))
+                                        <div class="alert alert-danger" style="margin-top: 5px">
+                                            {{$errors->first('content')}}
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label for="image">Upload Image</label>
